@@ -24,6 +24,7 @@ public:
 	static jmethodID AndroidThunkJava_ShowVirtualKeyboardInput;
 	static jmethodID AndroidThunkJava_HideVirtualKeyboardInput;
 	static jmethodID AndroidThunkJava_LaunchURL;
+    static jmethodID AndroidThunkCpp_lunchApp;
 	static jmethodID AndroidThunkJava_GetAssetManager;
 	static jmethodID AndroidThunkJava_Minimize;
 	static jmethodID AndroidThunkJava_ForceQuit;
