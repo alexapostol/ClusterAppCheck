@@ -1584,15 +1584,6 @@ bool FAndroidMisc::HasActiveWiFiConnection()
 	return AndroidThunkCpp_HasActiveWiFiConnection();
 }
 
-bool FAndroidMisc::lunchApp(const FString& AppID)
-{
-    extern bool AndroidThunkCpp_lunchApp(const FString& AppID);
-    return AndroidThunkCpp_lunchApp(AppID);
-    return true;
-}
-
-
-
 static FAndroidMisc::ReInitWindowCallbackType OnReInitWindowCallback;
 
 FAndroidMisc::ReInitWindowCallbackType FAndroidMisc::GetOnReInitWindowCallback()

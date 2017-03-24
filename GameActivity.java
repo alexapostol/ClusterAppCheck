@@ -1071,7 +1071,11 @@ public class GameActivity extends NativeActivity implements SurfaceHolder.Callba
 			}
 
 			adPopupWindow.showAtLocation(activityLayout, adGravity, 0, 0);
-			adPopupWindow.update();
+			// don't call update on 7.0 to work around this issue: https://code.google.com/p/android/issues/detail?id=221001
+			if (ANDROID_BUILD_VERSION != 24)
+			{
+				adPopupWindow.update();
+			}
 		}
 		else
 		{
@@ -1263,51 +1267,6 @@ public class GameActivity extends NativeActivity implements SurfaceHolder.Callba
 	    });
  	}
 	
-    //    public void AndroidThunkJava_OpenGallery()
-    //{
-    //
-    //https://forums.unrealengine.com/showthread.php?85639-Open-the-Android-Photo-Gallery-and-get-photo
-    //You would add this to GameActivity.java and add C++ calling in AndroidJNI.h and AndroidJNI.cpp to this method. To get the picked image you'd need to check in onActivityResult() for requestCode == RESULT_LOAD_IMG, resultCode == RESULT_OK, and data != null. The data then would need to be resolved to get access to the image and fed back to C++ depending on what you wanted to do with it.
-
-    
-      //       Intent Intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-      //       startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
-    //}
-    
-    public void AndroidThunkCpp_lunchApp(String AppID)
-    {
-        try
-        {    
-            //Intent BrowserIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(URL));
-            //startActivity(BrowserIntent);
-            
-            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(
-            //"com.package.address"
-            
-            AppID
-            );
-            if (launchIntent != null) 
-            { 
-                startActivity(launchIntent);//null pointer check in case package name was not found
-            }
-            
-        ///////////////////
-            //Intent startMain = new Intent(Intent.ACTION_MAIN);
-            //startMain.addCategory(Intent.CATEGORY_HOME);
-            //startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //startActivity(startMain);
-            
-            
-        }
-        catch (Exception e)
-        {
-            Log.debug("LaunchURL failed with exception " + e.getMessage());
-        }
-    }
-    
-
-    
-    
 	public void AndroidThunkJava_LaunchURL(String URL)
 	{
 		try
