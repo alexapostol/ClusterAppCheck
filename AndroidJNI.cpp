@@ -60,6 +60,7 @@ void FJavaWrapper::FindClassesAndMethods(JNIEnv* Env)
 	AndroidThunkJava_ShowVirtualKeyboardInput = FindMethod(Env, GameActivityClassID, "AndroidThunkJava_ShowVirtualKeyboardInput", "(ILjava/lang/String;Ljava/lang/String;)V", bIsOptional);
 	AndroidThunkJava_HideVirtualKeyboardInput = FindMethod(Env, GameActivityClassID, "AndroidThunkJava_HideVirtualKeyboardInput", "()V", bIsOptional);
 	AndroidThunkJava_LaunchURL = FindMethod(Env, GameActivityClassID, "AndroidThunkJava_LaunchURL", "(Ljava/lang/String;)V", bIsOptional);
+        AndroidThunkCpp_lunchApp = FindMethod(Env, GameActivityClassID, "AndroidThunkCpp_lunchApp", "(Ljava/lang/String;)V", bIsOptional);
 	AndroidThunkJava_GetAssetManager = FindMethod(Env, GameActivityClassID, "AndroidThunkJava_GetAssetManager", "()Landroid/content/res/AssetManager;", bIsOptional);
 	AndroidThunkJava_Minimize = FindMethod(Env, GameActivityClassID, "AndroidThunkJava_Minimize", "()V", bIsOptional);
 	AndroidThunkJava_ForceQuit = FindMethod(Env, GameActivityClassID, "AndroidThunkJava_ForceQuit", "()V", bIsOptional);
@@ -252,6 +253,7 @@ jmethodID FJavaWrapper::AndroidThunkJava_HideVirtualKeyboardInputDialog;
 jmethodID FJavaWrapper::AndroidThunkJava_ShowVirtualKeyboardInput;
 jmethodID FJavaWrapper::AndroidThunkJava_HideVirtualKeyboardInput;
 jmethodID FJavaWrapper::AndroidThunkJava_LaunchURL;
+jmethodID FJavaWrapper::AndroidThunkCpp_lunchApp;
 jmethodID FJavaWrapper::AndroidThunkJava_GetAssetManager;
 jmethodID FJavaWrapper::AndroidThunkJava_Minimize;
 jmethodID FJavaWrapper::AndroidThunkJava_ForceQuit;
@@ -668,6 +670,33 @@ void AndroidThunkCpp_LaunchURL(const FString& URL)
 		Env->DeleteLocalRef(Argument);
 	}
 }
+
+void AndroidThunkCpp_lunchApp(const FString& AppID)
+{
+    
+    if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+    {
+        jstring Argument = Env->NewStringUTF(TCHAR_TO_UTF8(*AppID));
+        FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GameActivityThis, FJavaWrapper::AndroidThunkCpp_lunchApp, Argument);
+        Env->DeleteLocalRef(Argument);
+    }
+    ////////////////////////
+    /*    if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+    {
+        bIsActive = FJavaWrapper::CallBooleanMethod(Env, FJavaWrapper::GameActivityThis, FJavaWrapper::AndroidThunkJava_HasActiveWiFiConnection);
+    }
+
+    return bIsActive;
+
+    if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
+    {
+    //    jstring AdUnitIDArg = Env->NewStringUTF(TCHAR_TO_UTF8(*AdUnitID));
+    //    FJavaWrapper::CallVoidMethod(Env, FJavaWrapper::GoogleServicesThis, FJavaWrapper::AndroidThunkJava_LoadInterstitialAd, AdUnitIDArg);
+    //    Env->DeleteLocalRef(AdUnitIDArg);
+    }*/
+}
+
+
 
 void AndroidThunkCpp_ResetAchievements()
 {
